@@ -143,6 +143,7 @@ function abmvideo(file, model, agent_step!, model_step! = Agents.dummystep;
 
     fig, ax, abmobs = abmplot(model;
     add_controls = false, agent_step!, model_step!, figure, axis, kwargs...)
+    collect_data!(abmobs)
 
     resize_to_layout!(fig)
 
@@ -154,5 +155,5 @@ function abmvideo(file, model, agent_step!, model_step! = Agents.dummystep;
         end
         recordframe!(io)
     end
-    return nothing
+    return abmobs
 end

@@ -210,13 +210,13 @@ function Makie.plot!(abmplot::_ABMPlot)
     fig = ax.parent
 
     # OpenStreetMapSpace preplot
-    if model.space isa Agents.OpenStreetMapSpace
-        osm_plot = osmplot!(abmplot.ax[], model.space.map;
-            graphplotkwargs = (; arrow_show = false), abmplot.osmkwargs...
-        )
-        osm_plot.plots[1].plots[1].plots[1].inspectable[] = false
-        osm_plot.plots[1].plots[3].inspectable[] = false
-    end
+    # if model.space isa Agents.OpenStreetMapSpace
+    #     osm_plot = osmplot!(abmplot.ax[], model.space.map;
+    #         graphplotkwargs = (; arrow_show = false), abmplot.osmkwargs...
+    #     )
+    #     osm_plot.plots[1].plots[1].plots[1].inspectable[] = false
+    #     osm_plot.plots[1].plots[3].inspectable[] = false
+    # end
 
     # Heatmap
     if !isnothing(heatobs[])

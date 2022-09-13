@@ -47,12 +47,8 @@ function ABMObservable(model;
     )
 end
 
-
-function Agents.step!(abmobs::ABMObservable, n; kwargs...)
+function collect_data!(abmobs::ABMObservable)
     model, adf, mdf = abmobs.model, abmobs.adf, abmobs.mdf
-    Agents.step!(model[], abmobs.agent_step!, abmobs.model_step!, n; kwargs...)
-    notify(model)
-    abmobs.s[] = abmobs.s[] + n # increment step counter
     if Agents.should_we_collect(abmobs.s, model[], abmobs.when)
         if !isnothing(abmobs.adata)
             Agents.collect_agent_data!(adf[], model[], abmobs.adata, abmobs.s[])
@@ -63,6 +59,14 @@ function Agents.step!(abmobs::ABMObservable, n; kwargs...)
             notify(mdf)
         end
     end
+end
+
+function Agents.step!(abmobs::ABMObservable, n; kwargs...)
+    model = abmobs.model
+    Agents.step!(model[], abmobs.agent_step!, abmobs.model_step!, n; kwargs...)
+    notify(model)
+    abmobs.s[] = abmobs.s[] + n # increment step counter
+    collect_data!(abmobs)
     return nothing
 end
 
