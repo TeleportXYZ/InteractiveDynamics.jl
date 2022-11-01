@@ -126,13 +126,16 @@ The plotting is identical as in [`abmplot`](@ref) and applicable keywords are pr
 * `kwargs...`: All other keywords are propagated to [`abmplot`](@ref).
 """
 function abmvideo(file, model, agent_step!, model_step! = Agents.dummystep;
-        spf = 1, framerate = 30, frames = 300,  title = "", showstep = true,
+        spf = 1, framerate = 30, frames = 300, titlefn=nothing, title = "", showstep = true,
         figure = (resolution = (600, 600),), axis = NamedTuple(),
         recordkwargs = (compression = 20,), kwargs...
     )
     # add some title stuff
     s = Observable(0) # counter of current step
-    if title ≠ "" && showstep
+    tobs = isnothing(titlefn) ? nothing : Observable(titlefn(model))
+    if !isnothing(titlefn)
+        t = tobs
+    elseif title ≠ "" && showstep
         t = lift(x -> title*", step = "*string(x), s)
     elseif showstep
         t = lift(x -> "step = "*string(x), s)
@@ -152,6 +155,7 @@ function abmvideo(file, model, agent_step!, model_step! = Agents.dummystep;
             recordframe!(io)
             Agents.step!(abmobs, spf)
             s[] += spf; s[] = s[]
+            tobs[] = isnothing(titlefn) ? nothing : titlefn(model)
         end
         recordframe!(io)
     end
