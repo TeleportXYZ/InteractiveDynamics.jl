@@ -1,6 +1,6 @@
 name = "InteractiveDynamics"
-uuid = "ec714cd0-5f51-11eb-0b6e-452e7367ff84"
-repo = "https://github.com/JuliaDynamics/InteractiveDynamics.jl.git"
+uuid = "cdf1c094-31da-4e9c-b2f1-9570896bf8ed"
+repo = "git@github.com:TeleportXYZ/InteractiveDynamics.jl.git"
 version = "0.21.11"
 
 [deps]
